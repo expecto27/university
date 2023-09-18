@@ -1,0 +1,7 @@
+extends ./head
+block content
+  h1 Список студентов
+  each el in students
+    li
+      a(href="/student/" + el.id) #{el.firstname} #{el.lastname} #{el.secondname} #{el.data} #{el.number}
+  include ./information

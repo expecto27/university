@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+</head>
+<body>
+
+    <% var d = new Date(); %>
+
+    <%if (d.getDay() == 0 || d.getDay() == 6) { %>
+	    <div> Сегодня выходной, поздравляем </div>
+    <%} else {%>
+	    <div> Сегодня рабочий день, поздравляем </div>
+    <%}%>    
+    <p>Посчитаем до 100</p>
+    <ul>
+    <%for(var x = 0; x <= 100; x++){%>
+        <li> One more </li>
+    <%}%>
+    </ul>
+</body>
+</html>

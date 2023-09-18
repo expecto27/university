@@ -1,0 +1,40 @@
+extends ./head
+block content
+    - var now = new Date()
+    case now.getDay() 
+        when 0
+            p Сегодня Воскресенье
+        
+        when 1
+            p Сегодня Понедельник
+
+        
+        when 2
+            p Сегодня Вторник
+        
+        when 0
+            p Сегодня Среда
+            
+        when 0
+            p Сегодня Четверг
+            
+        when 0
+            p Сегодня Пятница
+            
+        when 0
+            p Сегодня Суббота
+
+    - var randomNumber =  Math.floor((Math.random(3) * 100));
+    h2 RandomNumber: #{randomNumber}
+    if randomNumber % 2 == 0
+        p Число четное
+    else
+        p Число нечетное
+    
+    p И еще #{randomNumber} рандомных чисел
+    ul 
+        while randomNumber > 0
+            -var r = Math.floor(Math.random() * 100)
+            li #{r}
+            -randomNumber -= 1
+    

@@ -1,0 +1,7 @@
+extends ./head
+block content
+    body 
+        if course.id != null 
+            div #{course.name}
+        else 
+            div Курс не найден
