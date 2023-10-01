@@ -59,5 +59,10 @@ app.get("/ejsPractice", function(request, response)  {
 });
 
 app.get("/hbsPractice", function(request, response)  {   
-    response.render("hbsPractice.ejs"); 
+    let now = new Date();
+    response.render("hbsPractice.hbs", {
+        day: now.getDay() == 0 || now.getDate() == 6,
+        array: Array.from({length: 100}, (_, i) => i + 1)
+    });
 });
+
