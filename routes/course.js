@@ -24,13 +24,13 @@ var courses = [
     }
 ];
 
-var commonPath = 'listCourses'
+var commonPath = 'listDisciplines'
 router.get('/' + commonPath, function(req, res){
     db.all(`SELECT * FROM discipline`, (err, rows) => {
         if (err) {
             throw err;
         }
-        res.render("listCourses", {
+        res.render("discipline/listDisciplines", {
             courses: rows,
             title: "Список курсов"
         });
@@ -40,7 +40,7 @@ router.get('/' + commonPath, function(req, res){
 router.get('/course/:id', function(req, res){
     var courseId = req.params.id
     var course = courses.find(c => courseId == c.id);
-    res.render('course', {
+    res.render('discipline/discipline', {
         course: course
     });
 });

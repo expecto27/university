@@ -41,7 +41,7 @@ router.get('/listTeachers', function(req, res){
         if (err) {
             throw err;
         }
-        res.render("listTeachers", {
+        res.render("teacher/listTeachers", {
             teachers: rows,
             title: "Список студентов"
         });
@@ -53,7 +53,7 @@ router.get('/teacher/:id', function(req, res){
     var teacherId = req.params.id;
 
     var teacher = teachers.find(item => item.id == teacherId);
-    res.render("teacher", {
+    res.render("teacher/teacher", {
         teacher: teacher,
         title: teacher.lastname
     });

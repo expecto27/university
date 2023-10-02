@@ -3,5 +3,13 @@ html
         meta(charset='utf-8')
         title #{title}
     body
-
+        nav
+            a(href="/listStudentGroups") Студенческие группы |
+            a(href="/listStudents") Студенты |
+            a(href="/listTeachers") Преподаватели |
+            a(href="/listDisciplines") Учебные дисциплины |
+            a(href="/listTeacherDiscipline") Учебные дисциплины преподавателей |
+            a(href="/listSessionRecords") Данные сессий |
+            a(href="/attestationBook") Зачётная книжка
+        br
     block content

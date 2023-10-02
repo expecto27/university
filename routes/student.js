@@ -47,7 +47,7 @@ router.get("/listStudents", function(req, res)  {
         if (err) {
             throw err;
         }
-        res.render("listStudents", {
+        res.render("student/listStudents", {
             students: rows,
             title: "Список студентов"
         });
@@ -62,7 +62,7 @@ router.get("/student/:id", (req, res) => {
          if (err) {
              throw err;
          }
-         res.render("student", {
+         res.render("student/student", {
              student: rows
          });
      });
