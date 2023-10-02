@@ -1,7 +1,7 @@
 var express = require("express");
 // Вызываем функцию Router(), чтобы создать новый объект маршрутизации. Основной уже располагается в app.js
 var router = express.Router();
-
+var db = require("./database.js")
 // Указание, что модуль является экспортируемым (теперь его можно подключать в другие модули)
 module.exports = router;
 
@@ -43,27 +43,30 @@ var students = [
 ];
 
 router.get("/listStudents", function(req, res)  {
-    res.render("listStudents", {
-        students: students,
-        title: "Список студентов"
-    });  
-});  
-// :id — параметр запроса
-router.get("/student/:id", function(req, res)  {
-    
-    //students; //  массив скопируйте из обработчика маршрута /listStudents или запишите его в глобальную переменную
-    
-    // получение id студента из параметров запроса
-    var student_id = req.params.id;
-
-    // Поиск студента в массиве.
-    var student = students.find(item => item.id == student_id);
-
-    res.render("student", {
-        student: student,
-        title: student.firstname
+    db.all(`SELECT * FROM student`, (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.render("listStudents", {
+            students: rows,
+            title: "Список студентов"
+        });
     });
 });  
+// :id — параметр запроса
+router.get("/student/:id", (req, res) => {
+    // получение id студента из параметров запроса
+     var student_id = req.params.id;
+ 
+     db.get(`SELECT * FROM student WHERE id=?`, [student_id], (err, rows) => {
+         if (err) {
+             throw err;
+         }
+         res.render("student", {
+             student: rows
+         });
+     });
+ });
 
 router.post("/student/:id", function(req, res)  {
     // отображение данных в терминале, которые были отправлены из формы 

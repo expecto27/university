@@ -1,7 +1,7 @@
 var express = require("express");
 // Вызываем функцию Router(), чтобы создать новый объект маршрутизации. Основной уже располагается в app.js
 var router = express.Router();
-
+var db = require("./database.js")
 // Указание, что модуль является экспортируемым (теперь его можно подключать в другие модули)
 module.exports = router;
 
@@ -26,9 +26,14 @@ var courses = [
 
 var commonPath = 'listCourses'
 router.get('/' + commonPath, function(req, res){
-    
-    res.render( commonPath , {
-        courses: courses
+    db.all(`SELECT * FROM discipline`, (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.render("listCourses", {
+            courses: rows,
+            title: "Список курсов"
+        });
     });
 });
 

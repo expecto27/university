@@ -1,7 +1,7 @@
 var express = require("express");
 // Вызываем функцию Router(), чтобы создать новый объект маршрутизации. Основной уже располагается в app.js
 var router = express.Router();
-
+var db = require("./database.js")
 // Указание, что модуль является экспортируемым (теперь его можно подключать в другие модули)
 module.exports = router
 
@@ -37,9 +37,14 @@ var teachers = [
 
 
 router.get('/listTeachers', function(req, res){
-    res.render( "listTeachers" , {
-        teachers: teachers,
-        title: 'Список преподавателей'
+    db.all(`SELECT * FROM teacher`, (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.render("listTeachers", {
+            teachers: rows,
+            title: "Список студентов"
+        });
     });
 });
 
