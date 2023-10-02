@@ -43,18 +43,20 @@ router.get('/listTeachers', function(req, res){
         }
         res.render("teacher/listTeachers", {
             teachers: rows,
-            title: "Список студентов"
+            title: "Список преподавателей"
         });
     });
 });
 
-router.get('/teacher/:id', function(req, res){
-    
-    var teacherId = req.params.id;
-
-    var teacher = teachers.find(item => item.id == teacherId);
-    res.render("teacher/teacher", {
-        teacher: teacher,
-        title: teacher.lastname
-    });
-});
+router.get("/teacher/:id", (req, res) => {
+     var teacher_id = req.params.id;
+ 
+     db.get(`SELECT * FROM teacher WHERE id=?`, [teacher_id], (err, rows) => {
+         if (err) {
+             throw err;
+         }
+         res.render("teacher/teacher", {
+             teacher: rows
+         });
+     });
+ });

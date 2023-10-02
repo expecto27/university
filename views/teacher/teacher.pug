@@ -1,6 +1,9 @@
 extends ../head
 block content
     body 
-        if teacher.id != null 
-            div #{teacher.firstname} #{teacher.lastname} #{teacher.secondname}
-        
+        if teacher != null
+            form(action="/teacher/" + teacher.id, method="POST")
+                input(name="name" value=teacher.name)
+                input(type="submit" value='Отправить')
+        else
+            div Студент с таким id не найден
