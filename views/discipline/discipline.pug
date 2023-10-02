@@ -1,7 +1,9 @@
 extends ../head
 block content
     body 
-        if course.id != null 
-            div #{course.name}
-        else 
-            div Курс не найден
+        if course != null
+            form(action="/course/" + course.id, method="POST")
+                input(name="name" value=course.name)
+                input(type="submit" value='Отправить')
+        else
+            div Курс с таким id не найден

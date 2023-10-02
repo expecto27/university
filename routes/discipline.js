@@ -38,9 +38,14 @@ router.get('/' + commonPath, function(req, res){
 });
 
 router.get('/course/:id', function(req, res){
-    var courseId = req.params.id
-    var course = courses.find(c => courseId == c.id);
-    res.render('discipline/discipline', {
-        course: course
-    });
+   var id = req.params.id;
+ 
+   db.get(`SELECT * FROM discipline WHERE id=?`, [id], (err, rows) => {
+       if (err) {
+           throw err;
+       }
+       res.render("discipline/discipline", {
+           course: rows
+       });
+   });
 });

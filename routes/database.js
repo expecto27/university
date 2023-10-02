@@ -1,6 +1,6 @@
 // Подключение модуля Sqlite 
 var sqlite3 = require('sqlite3');
-var db = require("./database.js")
+
 // Создание объекта для работы с базой данных
 var db = new sqlite3.Database(
     './db/attestation_book.db', // attestation_book.db — имя файла базы данных  

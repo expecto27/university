@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var teacher = require('./routes/teacher')
 app.use('/', teacher)
 
-var course = require('./routes/course')
+var course = require('./routes/discipline')
 app.use('/', course)
 
 app.get('/pugPractice', function(req, res){
