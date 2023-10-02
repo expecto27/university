@@ -5,37 +5,6 @@ var db = require("./database.js")
 // Указание, что модуль является экспортируемым (теперь его можно подключать в другие модули)
 module.exports = router
 
-var teachers = [
-    { 
-        id: 1,
-        firstname: "Константин",
-        secondname: "Дмитриевич",
-        lastname: "Кириченко"
-    },
-    {
-        id: 2,
-        firstname: "Леонид",
-        secondname: "Владимирович",
-        lastname: "Рябец"
-    },
-    
-    {
-        id: 3,
-        firstname: "Борис",
-        secondname: "Петрович",
-        lastname: "Ильин",
-    },
-    
-    {
-        id: 4,
-        firstname: "Евгений",
-        secondname: "Александрович",
-        lastname: "Черкашин",
-    }
-
-];
-
-
 router.get('/listTeachers', function(req, res){
     db.all(`SELECT * FROM teacher`, (err, rows) => {
         if (err) {

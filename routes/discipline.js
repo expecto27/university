@@ -5,25 +5,6 @@ var db = require("./database.js")
 // Указание, что модуль является экспортируемым (теперь его можно подключать в другие модули)
 module.exports = router;
 
-var courses = [
-    {
-        id: 1,
-        name: 'Math'
-    },
-    {
-        id: 2,
-        name: 'Android'
-    },
-    {
-        id: 3,
-        name: 'Algorithm'
-    },
-    {
-        id:4,
-        name: 'WEB'
-    }
-];
-
 var commonPath = 'listDisciplines'
 router.get('/' + commonPath, function(req, res){
     db.all(`SELECT * FROM discipline`, (err, rows) => {
