@@ -7,17 +7,17 @@ module.exports = router
 
 
 
-router.get('/listTeacherDiscipline', function(req, res){
-    db.all('SELECT * FROM teacher_discipline', (err, rows) =>{
+router.get('/listTeacherDiscipline', function (req, res) {
+    db.all('SELECT * FROM teacher_discipline', (err, rows) => {
         res.render("teacher/listTeacherDiscipline", {
             title: "Список дисциплин преподавателей",
             teacherDiscipline: rows
-            
+
         });
     });
- });
+});
 
-router.get('/listTeachers', function(req, res){
+router.get('/listTeachers', function (req, res) {
     db.all(`SELECT * FROM teacher`, (err, rows) => {
         if (err) {
             throw err;
@@ -30,14 +30,36 @@ router.get('/listTeachers', function(req, res){
 });
 
 router.get("/teacher/:id", (req, res) => {
-     var teacher_id = req.params.id;
- 
-     db.get(`SELECT * FROM teacher WHERE id=?`, [teacher_id], (err, rows) => {
-         if (err) {
-             throw err;
-         }
-         res.render("teacher/teacher", {
-             teacher: rows
-         });
-     });
- });
+    var teacher_id = req.params.id;
+
+    db.get(`SELECT * FROM teacher WHERE id=?`, [teacher_id], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.render("teacher/teacher", {
+            teacher: rows
+        });
+    });
+});
+
+
+router.route('/addTeacher')
+    .get((req, res) => {
+
+        res.render('teacher/addTeacher', {
+            title: "Добавление преподавателя"
+        });
+    })
+    .post((req, res) => {
+        db.run(
+            'INSERT INTO teacher (name) VALUES (?)',
+            [req.body.name],
+            (err) => {
+                if(err){
+                    throw err;
+                }
+            res.redirect('/listTeachers')
+            }
+        );
+    });
+    
