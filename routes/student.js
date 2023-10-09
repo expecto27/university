@@ -6,7 +6,8 @@ var db = require("./database.js")
 module.exports = router;
 
 router.get("/listStudents", function (req, res) {
-    db.all(`SELECT * FROM student`, (err, rows) => {
+    db.all(`SELECT student.*, student_group.name as student_group_name FROM student
+    INNER JOIN student_group ON student_group.id=student.student_group_id`, (err, rows) => {
         if (err) {
             throw err;
         }
@@ -18,28 +19,6 @@ router.get("/listStudents", function (req, res) {
 });
 // :id — параметр запроса
 router.get("/student/:id", (req, res) => {
-    db.get(
-        `SELECT student.*, student_group.name as student_group_name FROM student
-        INNER JOIN student_group ON student_group.id=student.student_group_id 
-        WHERE student.id=?`,
-        [req.params.id], (err, rows) => {
-            if (err) {
-                throw err;
-            }
-            var student = rows;
-            // получаем все группы для вывода в выпадающий список
-            db.all(`SELECT * FROM student_group`, (err, rows) => {
-                if (err) {
-                    throw err;
-                }
-                res.render("student/student", {
-                    student: student,
-                    studentGroups: rows,
-                    title: "Студент"
-                });
-            });
-        });
-}); router.get("/student/:id", (req, res) => {
     db.get(
         `SELECT student.*, student_group.name as student_group_name FROM student
         INNER JOIN student_group ON student_group.id=student.student_group_id 

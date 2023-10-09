@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require("./database.js");
 module.exports = router;
 
-router.get('/listStudentGroups', function(req, res){
+router.get('/listStudentGroups', function (req, res) {
     db.all(`SELECT * FROM student_group`, (err, rows) => {
         if (err) {
             throw err;
@@ -15,7 +15,7 @@ router.get('/listStudentGroups', function(req, res){
     });
 });
 
-router.get("/studentGroup/:id", (req, res) =>  {
+router.get("/studentGroup/:id", (req, res) => {
     db.get(`SELECT * FROM student_group WHERE id=?`, [req.params.id], (err, rows) => {
         if (err) {
             throw err;
@@ -57,14 +57,14 @@ router.route("/addStudentGroup")
         );
     });
 
-    router.post("/deleteStudentGroup/:id", (req, res) => {
-        db.run(`DELETE FROM student_group WHERE id=?`, [req.params.id],
-            (err) => {
-                if (err) {
-                    throw err;
-                }
-                // возвращаемся к списку студенческих групп
-                res.redirect('/listStudentGroups');
+router.post("/deleteStudentGroup/:id", (req, res) => {
+    db.run(`DELETE FROM student_group WHERE id=?`, [req.params.id],
+        (err) => {
+            if (err) {
+                throw err;
             }
-        );
-    });
+            // возвращаемся к списку студенческих групп
+            res.redirect('/listStudentGroups');
+        }
+    );
+});
