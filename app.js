@@ -63,3 +63,5 @@ app.get("/hbsPractice", function(request, response)  {
     });
 });
 
+var studentGroup = require('./routes/studentGroup');
+app.use('/', studentGroup);
