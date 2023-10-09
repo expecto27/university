@@ -5,6 +5,18 @@ var db = require("./database.js")
 // Указание, что модуль является экспортируемым (теперь его можно подключать в другие модули)
 module.exports = router
 
+
+
+router.get('/listTeacherDiscipline', function(req, res){
+    db.all('SELECT * FROM teacher_discipline', (err, rows) =>{
+        res.render("teacher/listTeacherDiscipline", {
+            title: "Список дисциплин преподавателей",
+            teacherDiscipline: rows
+            
+        });
+    });
+ });
+
 router.get('/listTeachers', function(req, res){
     db.all(`SELECT * FROM teacher`, (err, rows) => {
         if (err) {

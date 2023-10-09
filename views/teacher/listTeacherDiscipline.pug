@@ -1,0 +1,7 @@
+extends ../head
+block content
+    
+    each el in teacherDiscipline
+        li 
+            a(href="/teacherDiscipline/" + el.id) #{el.name}
+        include ../information
