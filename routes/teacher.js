@@ -42,26 +42,27 @@ router.get("/teacher/:id", (req, res) => {
     });
 });
 
-router.post('updateTeacher/:id', (req, res) =>{
+router.post('/updateTeacher/:id', (req, res) =>{
     db.run(
-        'UPDATE teacher SET name=?, WHERE id=?',
+        'UPDATE teacher SET name=? WHERE id=?',
         [req.body.name, req.params.id],
         (err) => {
             if(err){
                 throw err;
             }
-            res.redirect('/listTeacher');
+            res.redirect('/listTeachers');
         }
     );
 });
 
-router.post('deleteTeacher/:id', (req, res) =>{
+router.post('/deleteTeacher/:id', (req, res) =>{
     db.run(
         'DELETE FROM teacher where id=?', [req.params.id],
         (err) =>{
             if(err){
                 throw err;
             }
+            res.redirect('/listTeachers');
         }
     );
 });
@@ -87,3 +88,13 @@ router.route('/addTeacher')
     });
 
 
+    extends ../head
+    block content
+        form(action="/addTeacherDiscipline" method="POST")
+            select(name="teacher_id")
+                each el in teachers
+                    option(value=el.id) #{el.name}
+            select(name="discipline_id")
+                each el in disciplines
+                    option(value=el.id) #{el.name}
+            input(type="submit" value="Добавить")
