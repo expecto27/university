@@ -82,19 +82,9 @@ router.route('/addTeacher')
                 if(err){
                     throw err;
                 }
-            res.redirect('/listTeachers')
+                res.redirect('/listTeachers');
             }
         );
     });
 
 
-    extends ../head
-    block content
-        form(action="/addTeacherDiscipline" method="POST")
-            select(name="teacher_id")
-                each el in teachers
-                    option(value=el.id) #{el.name}
-            select(name="discipline_id")
-                each el in disciplines
-                    option(value=el.id) #{el.name}
-            input(type="submit" value="Добавить")

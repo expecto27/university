@@ -18,7 +18,7 @@ router.get('/' + commonPath, function(req, res){
     });
 });
 
-router.get('/course/:id', function(req, res){
+router.get('/discipline/:id', function(req, res){
    var id = req.params.id;
  
    db.get(`SELECT * FROM discipline WHERE id=?`, [id], (err, rows) => {
@@ -26,7 +26,57 @@ router.get('/course/:id', function(req, res){
            throw err;
        }
        res.render("discipline/discipline", {
-           course: rows
+           discipline: rows
        });
    });
 });
+
+router.post('/updateDiscipline/:id', (req, res)=>{
+    db.run(
+        'UPDATE discipline SET name=? WHERE id =?',
+        [req.body.name, req.params.id],
+        (err)=>{
+            if(err){
+                throw err;
+            }
+            res.redirect('/listDisciplines');
+        }
+    );
+});
+router.post('/deleteDiscipline/:id', (req, res)=>{
+    db.run('DELETE FROM discipline WHERE id=?', [req.params.id],
+        (err) => {
+            if(err){
+                throw err;
+            }
+            res.redirect('/listDisciplines');
+        }
+    );
+});
+
+
+router.route('/addDiscipline')
+    .get((req, res) => {
+        db.all('SELECT * FROM discipline', (err, rows)=>{
+            if(err){
+                throw err;
+            }
+            res.render("discipline/addDiscipline",{
+                title:'Добавление дисциплины'
+            });
+        });
+
+    })
+
+    .post( (req, res) => {
+        db.run(
+            'INSERT INTO discipline(name) VALUES (?)',
+            [req.body.name],
+            (err) =>{
+                if(err){
+                    throw err;
+                }
+                res.redirect('/listDisciplines');    
+            }
+        );
+    });
