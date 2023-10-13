@@ -5,7 +5,6 @@ block content
         select(name="student_group_id" required)
             each el in studentGroups
                 if(student.student_group_id == el.id)
-                    // подставляем по умолчанию значение той группы, к которой уже прикреплён студент
                     option(value=el.id selected) #{el.name}
                 else
                     option(value=el.id) #{el.name}

@@ -42,6 +42,29 @@ router.get("/teacher/:id", (req, res) => {
     });
 });
 
+router.post('updateTeacher/:id', (req, res) =>{
+    db.run(
+        'UPDATE teacher SET name=?, WHERE id=?',
+        [req.body.name, req.params.id],
+        (err) => {
+            if(err){
+                throw err;
+            }
+            res.redirect('/listTeacher');
+        }
+    );
+});
+
+router.post('deleteTeacher/:id', (req, res) =>{
+    db.run(
+        'DELETE FROM teacher where id=?', [req.params.id],
+        (err) =>{
+            if(err){
+                throw err;
+            }
+        }
+    );
+});
 
 router.route('/addTeacher')
     .get((req, res) => {
@@ -62,4 +85,5 @@ router.route('/addTeacher')
             }
         );
     });
-    
+
+
