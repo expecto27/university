@@ -87,4 +87,62 @@ router.route('/addTeacher')
         );
     });
 
+    router.get("/listTeacherDiscipline", (req, res) => {
+        db.all(
+            `SELECT discipline.id AS discipline_id, discipline.name AS discipline_name, 
+            teacher.id AS teacher_id, teacher.name 
+            FROM teacher_discipline
+        INNER JOIN discipline ON discipline.id=teacher_discipline.discipline_id 
+        INNER JOIN teacher ON teacher.id=teacher_discipline.teacher_id`,
+            (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+                res.render("teacher/listTeacherDiscipline", {
+                    teacherDiscipline: rows,
+                    title: "Назначение преподавателям учебных дисциплин"
+                });
+        });
+    });
 
+router.route("/addTeacherDiscipline")
+    .get((req, res) => {
+        db.all(`SELECT * FROM teacher`, (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            var teachers = rows;
+            db.all(`SELECT * FROM discipline`, (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+                var disciplines = rows;
+                res.render("teacher/addTeacherDiscipline", {
+                    teachers: teachers,
+                    disciplines: disciplines,
+                    title: "Назначение преподавателям учебных дисциплин"
+                });
+            });
+        });
+    })
+    .post((req, res) => {
+        db.run('INSERT INTO teacher_discipline(teacher_id, discipline_id) VALUES (?, ?)', [req.body.teacher_id, req.body.discipline_id],
+            (err) => {
+                if (err) {
+                    throw err;
+                }
+                res.redirect('/listTeacherDiscipline');
+            }
+        );
+    });
+
+router.post("/deleteTeacherDiscipline/teacherId=:teacher_id/disciplineId=:discipline_id", (req, res) => {
+        db.run(`DELETE FROM teacher_discipline WHERE teacher_id=? AND discipline_id=?`, [req.params.teacher_id, req.params.discipline_id],
+            (err) => {
+                if (err) {
+                    throw err;
+                }
+                res.redirect('/listTeacherDiscipline');
+            }
+        );
+    });
