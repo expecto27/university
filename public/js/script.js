@@ -1,3 +1,5 @@
+$(document).ready(() => {
+
 function getDisciplinesNotTeacher(){
 
     var teacher_id = $("#teacher_id").val();
@@ -23,3 +25,9 @@ function getDisciplinesNotTeacher(){
         }
     });
 }
+
+$("#teacher_id").change(() => {
+    getDisciplinesNotTeacher();
+});
+getDisciplinesNotTeacher();
+});

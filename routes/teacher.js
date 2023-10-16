@@ -139,12 +139,11 @@ router.post("/deleteTeacherDiscipline/teacherId=:teacher_id/disciplineId=:discip
 
 router.post("/getDisciplinesNotTeacher", function(req, res) {
     db.all(
-        'SELECT * FROM discipline\
-        WHERE id NOT IN (\
-            SELECT teacher_discipline.discipline_id\
-            FROM teacher_discipline \
-            WHERE teacher_discipline.teacher_id = ?\
-        )',
+        `SELECT * FROM discipline
+            WHERE NOT EXISTS (
+                SELECT * FROM teacher_discipline
+                WHERE teacher_id = ? AND teacher_discipline.discipline_id = discipline.id 
+        )`,
         req.body.teacher_id, (err, rows) => {
             if (err) {
                 throw err;
