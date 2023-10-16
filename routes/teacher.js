@@ -7,16 +7,6 @@ module.exports = router
 
 
 
-router.get('/listTeacherDiscipline', function (req, res) {
-    db.all('SELECT * FROM teacher_discipline', (err, rows) => {
-        res.render("teacher/listTeacherDiscipline", {
-            title: "Список дисциплин преподавателей",
-            teacherDiscipline: rows
-
-        });
-    });
-});
-
 router.get('/listTeachers', function (req, res) {
     db.all(`SELECT * FROM teacher`, (err, rows) => {
         if (err) {
@@ -92,8 +82,8 @@ router.route('/addTeacher')
             `SELECT discipline.id AS discipline_id, discipline.name AS discipline_name, 
             teacher.id AS teacher_id, teacher.name 
             FROM teacher_discipline
-        INNER JOIN discipline ON discipline.id=teacher_discipline.discipline_id 
-        INNER JOIN teacher ON teacher.id=teacher_discipline.teacher_id`,
+            INNER JOIN discipline ON discipline.id=teacher_discipline.discipline_id 
+            INNER JOIN teacher ON teacher.id=teacher_discipline.teacher_id`,
             (err, rows) => {
                 if (err) {
                     throw err;
