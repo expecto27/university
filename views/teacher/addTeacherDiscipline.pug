@@ -1,10 +1,16 @@
 extends ../head
+block append scripts
+    // подключаем скрипт
+    script(src="/js/script.js")
+    
 block content
+
     form(action="/addTeacherDiscipline" method="POST")
-        select(name="teacher_id")
+        select(name="teacher_id" id="teacher_id" required)
             each el in teachers
                 option(value=el.id) #{el.name}
-        select(name="discipline_id")
+        select(name="discipline_id" id="discipline_id" required)
             each el in disciplines
                 option(value=el.id) #{el.name}
         input(type="submit" value="Добавить")
+
