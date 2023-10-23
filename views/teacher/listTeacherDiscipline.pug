@@ -1,8 +1,8 @@
 extends ../head
 block content
     a(href="/addTeacherDiscipline" class="btn btn-success") Добавить новую запись
-    table(border="1")
-        thead
+    table(border="1" class="table table-bordered table-striped mt-3")
+        thead(class="table-primary")
             tr
                 th №
                 th Преподаватель
@@ -10,15 +10,12 @@ block content
                 th Действие
         tbody
             - var i = 1;
-            ul(class="list-group mt-3")
-                each el in teacherDiscipline
-                    li(class="list-group-item")    
-                        tr
-                            
-                            td #{i}
-                            td #{el.name}
-                            td #{el.discipline_name}
-                            td
-                                form(action="/deleteTeacherDiscipline/teacherId=" + el.teacher_id + "/disciplineId=" + el.discipline_id, method="POST")
-                                    input(type="submit" value="Удалить" class = "btn btn-warning")
-                        - i++
+            each el in teacherDiscipline
+                tr
+                    td #{i}
+                    td #{el.name}
+                    td #{el.discipline_name}
+                    td
+                        form(action="/deleteTeacherDiscipline/teacherId=" + el.teacher_id + "/disciplineId=" + el.discipline_id, method="POST")
+                            input(type="submit" value="Удалить" class="btn btn-danger")
+                - i++
