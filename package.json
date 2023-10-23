@@ -15,7 +15,8 @@
     "hbs": "^4.2.0",
     "nodemon": "^3.0.1",
     "pug": "^3.0.2",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "sqlite3-transactions": "^0.0.5"
   },
   "description": ""
 }

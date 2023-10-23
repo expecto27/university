@@ -39,6 +39,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var student = require('./routes/student');
 app.use('/', student);
 
+var attestationBook = require('./routes/attestationBook');
+app.use('/', attestationBook);
+
 var teacher = require('./routes/teacher')
 app.use('/', teacher)
 

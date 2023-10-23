@@ -1,0 +1,27 @@
+extends ../head
+block content
+    form(action="/addSessionRecord" method="POST")
+        div Студенческая группа
+            select(name="student_group_id")
+                each el in studentGroups
+                    option(value=el.id) #{el.name}
+        div Номер семестра
+            select(name="semester")
+                // даём возможность выбрать 8 семестров (с 1 по 4 курс бакалавриата, для магистратуры тоже подойдёт,
+                // так как только 4 семестра, при желании можете адаптировать и под специалитет, а также бакалавриат, который рассчитан на 5 лет)
+                - var i = 1;
+                while i <= 8
+                    option(value=i) #{i}
+                    - i++;
+        div Дисциплина, преподаватель
+            select(name="teacher_discipline_id")
+                each el in teacherDiscipline
+                    option(value=el.id) #{el.discipline_name} &mdash; #{el.name}
+        div Форма отчётности
+            select(name="report_type_id")
+                each el in reportTypes
+                    option(value=el.id) #{el.name}
+        div Дата
+            input(name="mark_date" id="mark_date" type="date" placeholder="Дата" required)
+        div
+            input(type="submit" value="Добавить")

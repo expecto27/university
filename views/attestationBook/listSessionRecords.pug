@@ -1,0 +1,25 @@
+extends ../head
+block content
+    a(href="/addSessionRecord") Добавить новую запись
+    table(border="1")
+        thead
+            tr
+                th №
+                th Группа
+                th Семестр
+                th Дисциплина
+                th Преподаватель
+                th Форма отчётности
+                th Дата
+        tbody
+            - var i = 1;
+            each el in sessionRecords
+                tr
+                    td #{i}
+                    td #{el.student_group_name}
+                    td #{el.semester}
+                    td #{el.discipline_name}
+                    td #{el.name} 
+                    td #{el.report_type_name}
+                    td #{el.mark_date}
+                - i++
