@@ -1,0 +1,7 @@
+extends ../head
+block content
+    h5 Группа #{studentGroup.name}
+    ul
+        each el in students
+            li
+                a(href="/attestationBook/studentId=" + el.id) #{el.name}

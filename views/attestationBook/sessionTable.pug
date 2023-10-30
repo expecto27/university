@@ -1,0 +1,37 @@
+mixin sessionTable(attestationBookForSemester, course, semester)
+    if (attestationBookForSemester[course+","+semester])
+        table(border="1" class="table table-bordered mt-3")
+            thead(class="table-primary")
+                tr
+                    th №
+                    th Дисциплина
+                    th Оценка
+                    th Дата
+                    th Преподаватель
+                    th Форма отчётности
+                    th Действие
+            tbody
+                - var i = 1;
+                // в attestationBook["1,2"]: 1 - курс, 1 - номер семестра в рамках курса
+                each el in attestationBookForSemester[course+","+semester]
+                    form(action="/updateAttestationBook/studentId=" + student.id, method="POST")
+                        tr
+                            td #{i}
+                            td #{el.discipline_name}
+                            // показывать поле для ввода будем только в случае, когда оценка ещё не поставлена
+                            td
+                                if el.mark
+                                    |#{el.mark}
+                                else
+                                    input(name="mark" type="number" min="0" max="100" step="1" value=el.mark class="form-control")
+                            td #{el.mark_date}
+                            td #{el.name}
+                            td #{el.report_type_name}
+                            // показываем кнопку только тогда, когда ещё не поставлена оценка
+                            td
+                                if !el.mark
+                                    input(type="submit" value="Записать оценку" class="btn btn-success")
+                            // следующее поле не будет отображаться в пользовательском интерфейсе, поскольку установили свойство type в значение "hidden"
+                            // это поле требуется для отправки данных на сторону сервера, поскольку нужно обновлять оценку по id из attestation_book
+                            input(name="attestation_book_id" type="hidden" value=el.id)
+                    - i++

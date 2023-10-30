@@ -1,0 +1,5 @@
+extends ../head
+block content
+    each el in studentGroups
+        li
+            a(href="/attestationBook/studentGroupId=" + el.id) #{el.name}

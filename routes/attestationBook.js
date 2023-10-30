@@ -121,8 +121,45 @@ router.route("/addSessionRecord")
         });
     });
 
+    router.get("/attestationBook", (req, res) => {
+        db.all(`SELECT * FROM student_group`, (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            res.render("attestationBook/listStudentGroups", {
+                studentGroups: rows,
+                title: "Список студенческих групп"
+            });
+        });
+    });
 
-    
+
+    router.get("/attestationBook/studentGroupId=:student_group_id", (req, res) => {
+        db.get(`SELECT * FROM student_group WHERE id=?`,
+            [req.params.student_group_id],
+            (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+                var studentGroup = rows;
+                db.all(
+                    `SELECT * FROM student WHERE student_group_id=?`,
+                    [req.params.student_group_id],
+                    (err, rows) => {
+                        if (err) {
+                            throw err;
+                        }
+                        var students = rows;
+                        res.render("attestationBook/listStudents", {
+                            studentGroup: studentGroup,
+                            students: students,
+                            title: "Список студентов"
+                        });
+                    });
+            }
+        );
+    });
+
 router.get("/attestationBook/studentId=:student_id", (req, res) => {
         db.get(
             `SELECT student.*, student_group.name as student_group_name FROM student
