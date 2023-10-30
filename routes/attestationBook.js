@@ -120,3 +120,68 @@ router.route("/addSessionRecord")
                 });
         });
     });
+
+
+    
+router.get("/attestationBook/studentId=:student_id", (req, res) => {
+        db.get(
+            `SELECT student.*, student_group.name as student_group_name FROM student
+            INNER JOIN student_group ON student_group.id=student.student_group_id
+             WHERE student.id=?`,
+            [req.params.student_id],
+            (err, rows) => {
+                if (err) {
+                    throw err;
+                }
+                var student = rows;
+                db.all(
+                    `SELECT attestation_book.*, student_group_session.semester, student_group_session.mark_date,
+                    teacher.name, discipline.name AS discipline_name,
+                    student_group.name AS student_group_name, report_type.name as report_type_name
+                    FROM attestation_book
+                    INNER JOIN student_group_session ON student_group_session.id=attestation_book.student_group_session_id
+                    INNER JOIN teacher_discipline ON teacher_discipline.id=student_group_session.teacher_discipline_id
+                    INNER JOIN teacher ON teacher.id=teacher_discipline.teacher_id
+                    INNER JOIN discipline ON discipline.id=teacher_discipline.discipline_id 
+                    INNER JOIN student_group ON student_group.id=student_group_session.student_group_id
+                    INNER JOIN report_type ON report_type.id=student_group_session.report_type_id
+                    WHERE attestation_book.student_id=?`,
+                    [req.params.student_id],
+                    (err, rows) => {
+                        if (err) {
+                            throw err;
+                        }
+                        var attestationBook = rows;
+                        // разделяем записи по курсам и семестрам
+                        var groupedAttestationBook = attestationBook.reduce((elem, item) => {
+                            var semester = item.semester;
+                            var course = Math.ceil(semester / 2);
+                            // Определяем номер семестра в рамках курса. Если общий номер семестра нечётный, то в рамках курса это первый семестр, иначе второй.
+                            var semesterCourse = semester % 2 === 1 ? 1 : 2;
+                            if (elem[course+"," + semesterCourse] == null){
+                                elem[course+"," + semesterCourse] = [];
+                            }
+                            elem[course+"," + semesterCourse].push(item);
+                            return elem;
+                        }, {});
+                        res.render("attestationBook/attestationBook", {
+                            student: student,
+                            attestationBook: groupedAttestationBook,
+                            title: "Зачётная книжка"
+                        });
+                    });
+            }
+        );
+    });
+    
+    router.post("/updateAttestationBook/studentId=:student_id", (req, res) => {
+        db.run(`UPDATE attestation_book SET mark=? WHERE id=?`, [req.body.mark, req.body.attestation_book_id],
+            (err) => {
+                if (err) {
+                    throw err;
+                }
+                // возвращаемся к списку студенческих групп
+                res.redirect("/attestationBook/studentId=" + req.params.student_id);
+            }
+        );
+    });

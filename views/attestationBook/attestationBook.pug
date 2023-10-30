@@ -1,0 +1,108 @@
+extends ../head
+block content
+    h5 #{student.name}, группа #{student.student_group_name}
+    ul(class="nav nav-tabs" role="tablist")
+        li(class="nav-item" role="presentation")
+            button(class="nav-link active" id="course1-tab" data-bs-toggle="tab" data-bs-target="#course1" type="button" role="tab")
+                | Курс 1
+        li(class="nav-item" role="presentation")
+            button(class="nav-link" id="course2-tab" data-bs-toggle="tab" data-bs-target="#course2" type="button" role="tab")
+                | Курс 2
+        li(class="nav-item" role="presentation")
+            button(class="nav-link" id="course3-tab" data-bs-toggle="tab" data-bs-target="#course3" type="button" role="tab")
+                | Курс 3
+        li(class="nav-item" role="presentation")
+            button(class="nav-link" id="course4-tab" data-bs-toggle="tab" data-bs-target="#course4" type="button" role="tab")
+                | Курс 4
+
+    div(class="tab-content")
+        div(class="tab-pane fade show active" id="course1" role="tabpanel" aria-labelledby="course1")
+
+            ul(class="nav nav-tabs mt-3" role="tablist")
+                li(class="nav-item" role="presentation")
+                    button(class="nav-link active" id="course1-autumn-semester-tab" data-bs-toggle="tab" data-bs-target="#course1-autumn-semester" type="button" role="tab")
+                        | Осенний семестр
+                li(class="nav-item" role="presentation")
+                    button(class="nav-link" id="course1-spring-semester-tab" data-bs-toggle="tab" data-bs-target="#course1-spring-semester" type="button" role="tab")
+                        | Весенний семестр
+
+            div(class="tab-content")
+                // данные осеннего семестра за первый курс
+                div(class="tab-pane fade show active" id="course1-autumn-semester" role="tabpanel" aria-labelledby="course1-autumn-semester")
+                    if (attestationBook["1,1"])
+                        table(border="1" class="table table-bordered mt-3")
+                            thead(class="table-primary")
+                                tr
+                                    th №
+                                    th Дисциплина
+                                    th Оценка
+                                    th Дата
+                                    th Преподаватель
+                                    th Форма отчётности
+                                    th Действие
+                            tbody
+                                - var i = 1;
+                                // в attestationBook["1,1"]: 1 - курс, 1 - номер семестра в рамках курса
+                                each el in attestationBook["1,1"]
+                                    form(action="/updateAttestationBook/studentId=" + student.id, method="POST")
+                                        tr
+                                            td #{i}
+                                            td #{el.discipline_name}
+                                            // показывать поле для ввода будем только в случае, когда оценка ещё не поставлена
+                                            td
+                                                if el.mark
+                                                    |#{el.mark}
+                                                else
+                                                    input(name="mark" type="number" min="0" max="100" step="1" value=el.mark class="form-control")
+                                            td #{el.mark_date}
+                                            td #{el.name}
+                                            td #{el.report_type_name}
+                                            // показываем кнопку только тогда, когда ещё не поставлена оценка
+                                            td
+                                                if !el.mark
+                                                    input(type="submit" value="Записать оценку" class="btn btn-success")
+                                            // следующее поле не будет отображаться в пользовательском интерфейсе, поскольку установили свойство type в значение "hidden"
+                                            // это поле требуется для отправки данных на сторону сервера, поскольку нужно обновлять оценку по id из attestation_book
+                                            input(name="attestation_book_id" type="hidden" value=el.id)
+                                    - i++
+
+                div(class="tab-pane fade" id="course1-spring-semester" role="tabpanel" aria-labelledby="course1-spring-semester")
+                    if (attestationBook["1,2"])
+                        table(border="1" class="table table-bordered mt-3")
+                            thead(class="table-primary")
+                                tr
+                                    th №
+                                    th Дисциплина
+                                    th Оценка
+                                    th Дата
+                                    th Преподаватель
+                                    th Форма отчётности
+                                    th Действие
+                            tbody
+                                - var i = 1;
+                                // в attestationBook["1,2"]: 1 - курс, 2 - номер семестра в рамках курса
+                                each el in attestationBook["1,2"]
+                                    form(action="/updateAttestationBook/studentId=" + student.id, method="POST")
+                                        tr
+                                            td #{i}
+                                            td #{el.discipline_name}
+                                            // показывать поле для ввода будем только в случае, когда оценка ещё не поставлена
+                                            td
+                                                if el.mark
+                                                    |#{el.mark}
+                                                else
+                                                    input(name="mark" type="number" min="0" max="100" step="1" value=el.mark class="form-control")
+                                            td #{el.mark_date}
+                                            td #{el.name}
+                                            td #{el.report_type_name}
+                                            // показываем кнопку только тогда, когда ещё не поставлена оценка
+                                            td
+                                                if !el.mark
+                                                    input(type="submit" value="Записать оценку" class="btn btn-success")
+                                            // следующее поле не будет отображаться в пользовательском интерфейсе, поскольку установили свойство type в значение "hidden"
+                                            // это поле требуется для отправки данных на сторону сервера, поскольку нужно обновлять оценку по id из attestation_book
+                                            input(name="attestation_book_id" type="hidden" value=el.id)
+                                    - i++
+        div(class="tab-pane fade" id="course2" role="tabpanel" aria-labelledby="course2")
+        div(class="tab-pane fade" id="course3" role="tabpanel" aria-labelledby="course3")
+        div(class="tab-pane fade" id="course4" role="tabpanel" aria-labelledby="course4")
