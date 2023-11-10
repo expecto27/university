@@ -62,3 +62,16 @@ passport.use('login', new LocalStrategy({
             });
         });
     }));
+
+    passport.serializeUser((user, done) => {
+        done(null, user.username);
+    });
+    
+    passport.deserializeUser((username, done) => {
+        db.get('SELECT * FROM user WHERE username=?', [username], (err, user) => {
+            if (err) {
+                throw (err);
+            }
+            done(err, user);
+        });
+    });

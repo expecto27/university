@@ -9,7 +9,13 @@ html
             link(rel="stylesheet" href="/bootstrap/css/bootstrap.css")
             link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous")
     body
+
         nav(class="navbar navbar-light px-4" style="background-color: #B0DDFB;")
+            if username
+                div #{username}
+                a(href="/logout" class="navbar-brand") Выйти
+            else
+                a(href="/login" class="navbar-brand") Войти
             a(href="/listStudentGroups" class="navbar-brand") Студенческие группы
             a(href="/listStudents" class="navbar-brand") Студенты
             a(href="/listTeachers" class="navbar-brand") Преподаватели
