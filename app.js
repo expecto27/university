@@ -36,20 +36,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // подключение модуля student.js
-var student = require('./routes/student');
-app.use('/', student);
-
-var authentication = require('./routes/authentication');
-app.use('/', authentication);
-
-var attestationBook = require('./routes/attestationBook');
-app.use('/', attestationBook);
-
-var teacher = require('./routes/teacher')
-app.use('/', teacher)
-
-var course = require('./routes/discipline')
-app.use('/', course)
 
 app.get('/pugPractice', function(req, res){
     res.render( 'pugPractice', {
@@ -69,8 +55,6 @@ app.get("/hbsPractice", function(request, response)  {
     });
 });
 
-var studentGroup = require('./routes/studentGroup');
-app.use('/', studentGroup);
 
 
 var passport = require('passport');
@@ -93,3 +77,21 @@ app.use((req, res, next) => {
     res.locals.username = req.user ? req.user.username : "";
     next();
 });
+
+var studentGroup = require('./routes/studentGroup');
+app.use('/', studentGroup);
+
+    var student = require('./routes/student');
+    app.use('/', student);
+    
+    var authentication = require('./routes/authentication');
+    app.use('/', authentication);
+    
+    var attestationBook = require('./routes/attestationBook');
+    app.use('/', attestationBook);
+    
+    var teacher = require('./routes/teacher')
+    app.use('/', teacher)
+    
+    var course = require('./routes/discipline')
+    app.use('/', course)
